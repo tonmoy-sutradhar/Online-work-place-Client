@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import axios from "axios";
 import BidRequestTable from "../components/BidRequestTable";
+import { da } from "date-fns/locale";
 
 const BidRequests = () => {
   const { user } = useContext(AuthContext);
   const [bidReq, setBidReq] = useState([]);
   useEffect(() => {
-    fetchAllJobs();
+    fetchAllBids();
   }, [user.email]);
 
-  const fetchAllJobs = async () => {
+  const fetchAllBids = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/bid-request/${user?.email}`
     );
@@ -20,7 +21,18 @@ const BidRequests = () => {
   const handleStatusChange = async (id, prevStatus, status) => {
     if (prevStatus === status || prevStatus === "Completed")
       return console.log("Not Allowed");
-    console.table({ id, prevStatus, status });
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/bid-status-update/${id}`,
+        { status }
+      );
+      console.log(data);
+      // refresh UI
+      fetchAllBids();
+    } catch (err) {
+      console.log(err);
+    }
+    // console.table({ id, prevStatus, status });
   };
   return (
     <section className="container px-4 mx-auto my-12">

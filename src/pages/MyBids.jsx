@@ -7,10 +7,10 @@ const MyBids = () => {
   const { user } = useContext(AuthContext);
   const [bids, setBids] = useState([]);
   useEffect(() => {
-    fetchAllJobs();
+    fetchAllBids();
   }, [user.email]);
 
-  const fetchAllJobs = async () => {
+  const fetchAllBids = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/bids/${user?.email}`
     );
@@ -18,7 +18,19 @@ const MyBids = () => {
   };
 
   const handleStatusChange = async (id, prevStatus, status) => {
-    console.table({ id, prevStatus, status });
+    if (prevStatus !== "In Progress") return console.log("Not Allowed");
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_API_URL}/bid-status-update/${id}`,
+        { status }
+      );
+      console.log(data);
+      // refresh UI
+      fetchAllBids();
+    } catch (err) {
+      console.log(err);
+    }
+    // console.table({ id, prevStatus, status });
   };
 
   return (
