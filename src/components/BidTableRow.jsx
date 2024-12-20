@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import React from "react";
 
-const BidTableRow = ({ bid }) => {
-  const { job_title, deadline, price, category, status } = bid || {};
+const BidTableRow = ({ bid, handleStatusChange }) => {
+  const { job_title, deadline, price, category, status, _id } = bid || {};
   return (
     <tr>
       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
@@ -53,6 +53,7 @@ const BidTableRow = ({ bid }) => {
       </td>
       <td className="px-4 py-4 text-sm whitespace-nowrap">
         <button
+          onClick={() => handleStatusChange(_id, status, "Completed")}
           title="Mark Complete"
           className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed"
         >

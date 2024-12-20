@@ -16,7 +16,10 @@ const MyBids = () => {
     );
     setBids(data);
   };
-  console.log(bids, "all data from MyBid data");
+
+  const handleStatusChange = async (id, prevStatus, status) => {
+    console.table({ id, prevStatus, status });
+  };
 
   return (
     <section className="container px-4 mx-auto my-12">
@@ -81,7 +84,11 @@ const MyBids = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 ">
                   {bids.map((bid, indx) => (
-                    <BidTableRow key={indx} bid={bid}></BidTableRow>
+                    <BidTableRow
+                      key={indx}
+                      handleStatusChange={handleStatusChange}
+                      bid={bid}
+                    ></BidTableRow>
                   ))}
                 </tbody>
               </table>
