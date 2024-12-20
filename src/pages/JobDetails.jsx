@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 // const { compareAsc } = require("date-fns");
 
 const JobDetails = () => {
+  const navi = useNavigate();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const [startDate, setStartDate] = useState(new Date());
@@ -40,7 +41,7 @@ const JobDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const navigate = useNavigate();
+
     const form = e.target;
     const price = form.price.value;
     const email = user?.email;
@@ -68,17 +69,28 @@ const JobDetails = () => {
       return toast.error("Offered deadline cross in seller deadline.");
     }
 
-    const bidData = { price, email, comment, deadline, jobId };
+    const bidData = {
+      price,
+      email,
+      comment,
+      deadline: startDate,
+      jobId,
+      job_title,
+      category,
+      status: "Pending",
+      buyer: buyer?.email,
+    };
     console.table(bidData);
 
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/add-bid`, bidData);
       form.reset();
-      // navigate("/my-bids");
+      navi("/my-bids");
       toast.success("Bid Successful!!");
     } catch (err) {
       console.log(err);
-      toast.error("Something was wrong..");
+      // Backend side theke err data paour jonno --> err?.rresponse?.data use korci
+      toast.error(err?.response?.data);
     }
   };
 
