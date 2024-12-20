@@ -1,5 +1,5 @@
-import Carousel from '../components/Carousel'
-import TabCategories from '../components/TabCategories'
+import Carousel from "../components/Carousel";
+import TabCategories from "../components/TabCategories";
 
 const Home = () => {
   return (
@@ -7,7 +7,7 @@ const Home = () => {
       <Carousel />
       <TabCategories />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
