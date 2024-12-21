@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import axios from "axios";
 import BidRequestTable from "../components/BidRequestTable";
-import { da } from "date-fns/locale";
+// import { da } from "date-fns/locale";
 import toast from "react-hot-toast";
+import { axiosSecure } from "../Hooks/UseAxiosSecure";
 
 const BidRequests = () => {
   const { user } = useContext(AuthContext);
@@ -13,10 +14,9 @@ const BidRequests = () => {
   }, [user.email]);
 
   const fetchAllBids = async () => {
-    const { data } = await axios.get(
-      // ?buyer=true -----... add this for handle 2 in 1 method
-      `${import.meta.env.VITE_API_URL}/bid-request/${user?.email}`,
-      { withCredentials: true }
+    const { data } = await axiosSecure.get(
+      `/bid-request/${user?.email}`
+      // ?buyer=true jodi email por -----... add this for handle 2 in 1 method
     );
     setBidReq(data);
   };
