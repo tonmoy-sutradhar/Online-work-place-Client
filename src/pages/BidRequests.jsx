@@ -3,6 +3,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import axios from "axios";
 import BidRequestTable from "../components/BidRequestTable";
 import { da } from "date-fns/locale";
+import toast from "react-hot-toast";
 
 const BidRequests = () => {
   const { user } = useContext(AuthContext);
@@ -26,11 +27,13 @@ const BidRequests = () => {
         `${import.meta.env.VITE_API_URL}/bid-status-update/${id}`,
         { status }
       );
+
       console.log(data);
+      toast.success(`Status change ${status}`);
       // refresh UI
       fetchAllBids();
     } catch (err) {
-      console.log(err);
+      toast.error(err.message);
     }
     // console.table({ id, prevStatus, status });
   };

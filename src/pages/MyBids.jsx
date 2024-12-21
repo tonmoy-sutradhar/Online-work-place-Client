@@ -6,6 +6,7 @@ import BidTableRow from "../components/BidTableRow";
 const MyBids = () => {
   const { user } = useContext(AuthContext);
   const [bids, setBids] = useState([]);
+
   useEffect(() => {
     fetchAllBids();
   }, [user.email]);
@@ -16,6 +17,8 @@ const MyBids = () => {
     );
     setBids(data);
   };
+
+  // 6 no vedio ---> 9.55 projonto dekhci
 
   const handleStatusChange = async (id, prevStatus, status) => {
     if (prevStatus !== "In Progress") return console.log("Not Allowed");
