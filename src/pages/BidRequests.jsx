@@ -14,7 +14,9 @@ const BidRequests = () => {
 
   const fetchAllBids = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/bid-request/${user?.email}`
+      // ?buyer=true -----... add this for handle 2 in 1 method
+      `${import.meta.env.VITE_API_URL}/bid-request/${user?.email}`,
+      { withCredentials: true }
     );
     setBidReq(data);
   };
